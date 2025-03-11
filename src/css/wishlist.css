@@ -1,0 +1,96 @@
+#wishes-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+    gap: 1.5rem;
+    margin-bottom: 2rem;
+}
+
+.wish-card {
+    background-color: white;
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease;
+}
+
+.wish-card:hover {
+    transform: translateY(-5px);
+}
+
+.wish-image {
+    width: 100%;
+    height: 180px;
+    object-fit: cover;
+    background-color: #eaeaea;
+}
+
+.wish-content {
+    padding: 1rem;
+}
+
+.wish-title {
+    font-size: 1.2rem;
+    margin-bottom: 0.5rem;
+    font-weight: 600;
+}
+
+.wish-description {
+    color: #666;
+    margin-bottom: 1rem;
+    font-size: 0.9rem;
+}
+
+.wish-link {
+    display: inline-block;
+    margin-bottom: 1rem;
+    color: #4a90e2;
+    text-decoration: none;
+    font-size: 0.9rem;
+}
+
+.wish-actions {
+    display: flex;
+    justify-content: flex-end;
+    gap: 0.5rem;
+}
+
+.wish-actions button {
+    padding: 0.25rem 0.5rem;
+    font-size: 0.8rem;
+}
+
+.delete-btn {
+    background-color: #e74c3c;
+}
+
+.delete-btn:hover {
+    background-color: #c0392b;
+}
+
+.image-upload {
+    margin-bottom: 1.5rem;
+    text-align: center;
+}
+
+#image-placeholder {
+    width: 100%;
+    height: 180px;
+    border: 2px dashed #ddd;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 1rem;
+    background-color: #f9f9f9;
+    cursor: pointer;
+}
+
+#wish-image {
+    display: none;
+}
+
+#add-wish-btn {
+    display: block;
+    margin: 0 auto;
+    padding: 0.75rem 1.5rem;
+    font-size: 1.1rem;
+}
