@@ -4,78 +4,2774 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>My Wish List</title>
-    <link rel="stylesheet" href="../src/css/main.css">
-    <link rel="stylesheet" href="../src/css/auth.css">
-    <link rel="stylesheet" href="../src/css/wishlist.css">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        :root {
+            --primary-color: #5b48d9;
+            --primary-light: #7a68e3;
+            --secondary-color: #f8f9fa;
+            --accent-color: #ff6b6b;
+            --text-color: #333;
+            --light-gray: #ddd;
+            --dark-gray: #888;
+            --success-color: #28a745;
+            --danger-color: #dc3545;
+            --warning-color: #ffc107;
+            --box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            --transition-speed: 0.3s;
+        }
+        
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Montserrat', sans-serif;
+        }
+        
+        body {
+            background-color: var(--secondary-color);
+            color: var(--text-color);
+            line-height: 1.6;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        h1, h2, h3, h4 {
+            margin-bottom: 0.8em;
+            font-weight: 600;
+        }
+        
+        /* Animations */
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        @keyframes slideIn {
+            from { transform: translateX(-20px); opacity: 0; }
+            to { transform: translateX(0); opacity: 1; }
+        }
+        
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+            100% { transform: scale(1); }
+        }
+        
+        /* Header styles */
+        header {
+            background-color: var(--primary-color);
+            color: white;
+            padding: 15px 0;
+            box-shadow: var(--box-shadow);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            transition: all var(--transition-speed) ease;
+        }
+        
+        header:hover {
+            background-color: var(--primary-light);
+        }
+        
+        .header-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .logo {
+            font-size: 24px;
+            font-weight: bold;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            animation: slideIn 0.5s ease;
+        }
+        
+        .logo i {
+            margin-right: 8px;
+        }
+        
+        nav ul {
+            display: flex;
+            list-style: none;
+        }
+        
+        nav ul li {
+            margin-left: 20px;
+            position: relative;
+            animation: slideIn 0.5s ease;
+            animation-delay: calc(0.1s * var(--i));
+        }
+        
+        nav ul li a {
+            color: white;
+            text-decoration: none;
+            padding: 8px 12px;
+            border-radius: 20px;
+            transition: all var(--transition-speed) ease;
+            display: flex;
+            align-items: center;
+        }
+        
+        nav ul li a i {
+            margin-right: 6px;
+        }
+        
+        nav ul li a:hover {
+            background-color: rgba(255, 255, 255, 0.2);
+            transform: translateY(-2px);
+        }
+        
+        nav ul li.active a {
+            background-color: rgba(255, 255, 255, 0.2);
+            font-weight: 500;
+        }
+        
+        /* Auth container */
+        .auth-container {
+            display: flex;
+            flex-direction: column;
+            max-width: 450px;
+            margin: 50px auto;
+            padding: 30px;
+            background-color: white;
+            border-radius: 12px;
+            box-shadow: var(--box-shadow);
+            animation: fadeIn 0.6s ease;
+        }
+        
+        .auth-container h2 {
+            text-align: center;
+            margin-bottom: 25px;
+            color: var(--primary-color);
+        }
+        
+        .form-group {
+            margin-bottom: 20px;
+            position: relative;
+        }
+        
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 500;
+            font-size: 14px;
+        }
+        
+        .form-group input {
+            width: 100%;
+            padding: 12px 15px;
+            border: 1px solid var(--light-gray);
+            border-radius: 8px;
+            font-size: 16px;
+            transition: all var(--transition-speed) ease;
+        }
+        
+        .form-group input:focus {
+            border-color: var(--primary-color);
+            box-shadow: 0 0 0 3px rgba(91, 72, 217, 0.2);
+            outline: none;
+        }
+        
+        .form-group i {
+            position: absolute;
+            right: 15px;
+            top: 43px;
+            color: var(--dark-gray);
+        }
+        
+        .btn {
+            padding: 12px 20px;
+            background-color: var(--primary-color);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 16px;
+            font-weight: 500;
+            transition: all var(--transition-speed) ease;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .btn i {
+            margin-right: 8px;
+        }
+        
+        .btn:hover {
+            background-color: var(--primary-light);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+        }
+        
+        .btn:active {
+            transform: translateY(0);
+        }
+        
+        .btn-success {
+            background-color: var(--success-color);
+        }
+        
+        .btn-success:hover {
+            background-color: #218838;
+        }
+        
+        .btn-danger {
+            background-color: var(--danger-color);
+        }
+        
+        .btn-danger:hover {
+            background-color: #c82333;
+        }
+        
+        .btn-warning {
+            background-color: var(--warning-color);
+            color: #212529;
+        }
+        
+        .btn-warning:hover {
+            background-color: #e0a800;
+        }
+        
+        .btn-outline {
+            background-color: transparent;
+            border: 1px solid var(--primary-color);
+            color: var(--primary-color);
+        }
+        
+        .btn-outline:hover {
+            background-color: var(--primary-color);
+            color: white;
+        }
+        
+        .btn-block {
+            width: 100%;
+            display: block;
+        }
+        
+        .btn-sm {
+            padding: 8px 12px;
+            font-size: 14px;
+        }
+        
+        .switch-form {
+            margin-top: 20px;
+            text-align: center;
+            font-size: 14px;
+        }
+        
+        .switch-form a {
+            color: var(--primary-color);
+            text-decoration: none;
+            cursor: pointer;
+            font-weight: 500;
+            transition: all var(--transition-speed) ease;
+        }
+        
+        .switch-form a:hover {
+            text-decoration: underline;
+        }
+        
+        /* Profile container */
+        .profile-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
+            margin-top: 20px;
+            animation: fadeIn 0.5s ease;
+        }
+        
+        .profile-sidebar {
+            flex: 1;
+            min-width: 250px;
+            background-color: white;
+            border-radius: 12px;
+            padding: 25px;
+            box-shadow: var(--box-shadow);
+        }
+        
+        .profile-avatar {
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            object-fit: cover;
+            display: block;
+            margin: 0 auto 20px;
+            border: 3px solid var(--primary-color);
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+            transition: all var(--transition-speed) ease;
+        }
+        
+        .profile-avatar:hover {
+            transform: scale(1.05);
+        }
+        
+        .profile-content {
+            flex: 3;
+            min-width: 300px;
+            background-color: white;
+            border-radius: 12px;
+            padding: 25px;
+            box-shadow: var(--box-shadow);
+        }
+        
+        /* Tabs */
+        .tabs {
+            display: flex;
+            margin-bottom: 25px;
+            border-bottom: 1px solid var(--light-gray);
+            overflow-x: auto;
+            scrollbar-width: none; /* For Firefox */
+            -ms-overflow-style: none; /* For Internet Explorer and Edge */
+        }
+        
+        .tabs::-webkit-scrollbar {
+            display: none; /* For Chrome, Safari, and Opera */
+        }
+        
+        .tab {
+            padding: 12px 20px;
+            cursor: pointer;
+            position: relative;
+            color: var(--dark-gray);
+            font-weight: 500;
+            transition: all var(--transition-speed) ease;
+            white-space: nowrap;
+        }
+        
+        .tab:after {
+            content: '';
+            position: absolute;
+            left: 0;
+            bottom: -1px;
+            width: 100%;
+            height: 3px;
+            background-color: var(--primary-color);
+            transform: scaleX(0);
+            transition: transform var(--transition-speed) ease;
+        }
+        
+        .tab:hover {
+            color: var(--primary-color);
+        }
+        
+        .tab.active {
+            color: var(--primary-color);
+        }
+        
+        .tab.active:after {
+            transform: scaleX(1);
+        }
+        
+        .tab-content {
+            display: none;
+        }
+        
+        .tab-content.active {
+            display: block;
+            animation: fadeIn 0.5s ease;
+        }
+        
+        /* Wish items */
+        .wish-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 20px;
+            margin-top: 20px;
+        }
+        
+        .wish-item {
+            background-color: white;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: var(--box-shadow);
+            transition: all var(--transition-speed) ease;
+            position: relative;
+            animation: fadeIn 0.5s ease;
+            animation-delay: calc(0.1s * var(--i));
+        }
+        
+        .wish-item:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+        }
+        
+        .wish-img-container {
+            position: relative;
+            width: 100%;
+            height: 180px;
+            overflow: hidden;
+        }
+        
+        .wish-img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
+            transition: transform 0.5s ease;
+        }
+        
+        .wish-item:hover .wish-img {
+            transform: scale(1.05);
+        }
+        
+        .wish-reserved-badge {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background-color: var(--warning-color);
+            color: #212529;
+            padding: 5px 10px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 500;
+            z-index: 10;
+        }
+        
+        .wish-content {
+            padding: 20px;
+        }
+        
+        .wish-title {
+            font-size: 18px;
+            margin-bottom: 8px;
+            color: var(--text-color);
+        }
+        
+        .wish-desc {
+            font-size: 14px;
+            color: var(--dark-gray);
+            margin-bottom: 15px;
+            height: 40px;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+        }
+        
+        .wish-link {
+            color: var(--primary-color);
+            text-decoration: none;
+            font-size: 14px;
+            display: flex;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+        
+        .wish-link i {
+            margin-right: 6px;
+        }
+        
+        .wish-link:hover {
+            text-decoration: underline;
+        }
+        
+        .wish-actions {
+            display: flex;
+            justify-content: space-between;
+            gap: 10px;
+        }
+        
+        /* Friend items */
+        .friend-item {
+            display: flex;
+            align-items: center;
+            padding: 15px;
+            border-radius: 10px;
+            background-color: #f9f9f9;
+            margin-bottom: 15px;
+            transition: all var(--transition-speed) ease;
+            animation: fadeIn 0.5s ease;
+            animation-delay: calc(0.1s * var(--i));
+        }
+        
+        .friend-item:hover {
+            background-color: #f0f0f0;
+            transform: translateX(5px);
+        }
+        
+        .friend-avatar {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            object-fit: cover;
+            margin-right: 15px;
+            border: 2px solid var(--primary-color);
+        }
+        
+        .friend-info {
+            flex: 1;
+        }
+        
+        .friend-name {
+            font-weight: 600;
+            font-size: 16px;
+            margin-bottom: 3px;
+        }
+        
+        .friend-username {
+            color: var(--dark-gray);
+            font-size: 14px;
+        }
+        
+        .friend-actions {
+            display: flex;
+            gap: 8px;
+        }
+        
+        /* Modals */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0,0,0,0.5);
+            z-index: 2000;
+            align-items: center;
+            justify-content: center;
+            opacity: 0;
+            transition: opacity var(--transition-speed) ease;
+        }
+        
+        .modal.open {
+            display: flex;
+            opacity: 1;
+        }
+        
+        .modal-content {
+            background-color: white;
+            padding: 30px;
+            border-radius: 12px;
+            max-width: 500px;
+            width: 90%;
+            max-height: 90vh;
+            overflow-y: auto;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+            transform: translateY(-20px);
+            transition: transform var(--transition-speed) ease;
+            position: relative;
+        }
+        
+        .modal.open .modal-content {
+            transform: translateY(0);
+        }
+        
+        .close-modal {
+            position: absolute;
+            right: 20px;
+            top: 20px;
+            font-size: 24px;
+            cursor: pointer;
+            color: var(--dark-gray);
+            transition: all var(--transition-speed) ease;
+        }
+        
+        .close-modal:hover {
+            color: var(--danger-color);
+            transform: rotate(90deg);
+        }
+        
+        .modal-title {
+            margin-bottom: 20px;
+            color: var(--primary-color);
+        }
+        
+        /* Image upload */
+        .image-upload {
+            margin-bottom: 20px;
+        }
+        
+        .image-preview {
+            width: 100%;
+            height: 200px;
+            background-color: #f9f9f9;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+            margin-bottom: 15px;
+            border: 2px dashed var(--light-gray);
+            position: relative;
+        }
+        
+        .image-preview img {
+            max-width: 100%;
+            max-height: 100%;
+            object-fit: contain;
+        }
+        
+        .image-preview-placeholder {
+            color: var(--dark-gray);
+            font-size: 14px;
+            text-align: center;
+        }
+        
+        .image-preview-placeholder i {
+            font-size: 40px;
+            display: block;
+            margin-bottom: 10px;
+        }
+        
+        .upload-btn-wrapper {
+            position: relative;
+            overflow: hidden;
+            display: inline-block;
+        }
+        
+        .upload-btn {
+            background-color: var(--primary-color);
+            color: white;
+            padding: 10px 15px;
+            border-radius: 8px;
+            font-size: 14px;
+            cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            transition: all var(--transition-speed) ease;
+        }
+        
+        .upload-btn i {
+            margin-right: 8px;
+        }
+        
+        .upload-btn:hover {
+            background-color: var(--primary-light);
+        }
+        
+        .upload-btn-wrapper input[type=file] {
+            position: absolute;
+            left: 0;
+            top: 0;
+            opacity: 0;
+            width: 100%;
+            height: 100%;
+            cursor: pointer;
+        }
+        
+        /* Add wish button */
+        .add-wish-btn {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            width: 60px;
+            height: 60px;
+            background-color: var(--primary-color);
+            color: white;
+            border: none;
+            border-radius: 50%;
+            font-size: 24px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+            transition: all var(--transition-speed) ease;
+            z-index: 100;
+        }
+        
+        .add-wish-btn:hover {
+            background-color: var(--primary-light);
+            transform: translateY(-5px) rotate(90deg);
+            box-shadow: 0 6px 20px rgba(0,0,0,0.25);
+        }
+        
+        /* Messages */
+        .message {
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            position: relative;
+            animation: fadeIn 0.3s ease;
+        }
+        
+        .success-message {
+            background-color: #d4edda;
+            color: #155724;
+            border-left: 5px solid #28a745;
+        }
+        
+        .error-message {
+            background-color: #f8d7da;
+            color: #721c24;
+            border-left: 5px solid #dc3545;
+        }
+        
+        .warning-message {
+            background-color: #fff3cd;
+            color: #856404;
+            border-left: 5px solid #ffc107;
+        }
+        
+        .message-close {
+            position: absolute;
+            right: 10px;
+            top: 10px;
+            cursor: pointer;
+        }
+        
+        /* Loading spinner */
+        .spinner {
+            width: 40px;
+            height: 40px;
+            margin: 20px auto;
+            border-radius: 50%;
+            border: 3px solid rgba(91, 72, 217, 0.2);
+            border-top-color: var(--primary-color);
+            animation: spin 1s infinite linear;
+        }
+        
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        
+        /* Welcome animation */
+        .welcome-animation {
+            text-align: center;
+            margin: 50px 0;
+        }
+        
+        .welcome-animation h1 {
+            font-size: 2.5rem;
+            animation: slideIn 0.8s ease;
+        }
+        
+        .welcome-animation p {
+            font-size: 1.2rem;
+            margin-bottom: 30px;
+            color: var(--dark-gray);
+            animation: slideIn 0.8s ease;
+            animation-delay: 0.2s;
+        }
+        
+        .welcome-animation .btn {
+            animation: fadeIn 0.8s ease;
+            animation-delay: 0.5s;
+        }
+        
+        /* Responsive styles */
+        @media (max-width: 768px) {
+            .header-container {
+                flex-direction: column;
+                text-align: center;
+                padding: 10px 0;
+            }
+            
+            .logo {
+                margin-bottom: 10px;
+            }
+            
+            nav ul {
+                margin-top: 15px;
+                justify-content: center;
+                flex-wrap: wrap;
+            }
+            
+            nav ul li {
+                margin: 0 5px 5px;
+            }
+            
+            .profile-container {
+                flex-direction: column;
+            }
+            
+            .wish-grid {
+                grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+            }
+            
+            .wish-img-container {
+                height: 150px;
+            }
+            
+            .friend-actions {
+                flex-direction: column;
+            }
+            
+            .add-wish-btn {
+                width: 50px;
+                height: 50px;
+                font-size: 20px;
+                right: 20px;
+                bottom: 20px;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            .container {
+                padding: 15px;
+            }
+            
+            .auth-container {
+                padding: 20px;
+            }
+            
+            .wish-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+        
+        /* Notification badge */
+        .notification-badge {
+            position: absolute;
+            top: -5px;
+            right: -5px;
+            background-color: var(--accent-color);
+            color: white;
+            border-radius: 50%;
+            width: 20px;
+            height: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 12px;
+            font-weight: 500;
+            animation: pulse 1.5s infinite;
+        }
+        
+        /* Status indicator for online presence */
+        .status-indicator {
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            display: inline-block;
+            margin-right: 5px;
+        }
+        
+        .status-online {
+            background-color: var(--success-color);
+            box-shadow: 0 0 5px var(--success-color);
+        }
+        
+        .status-offline {
+            background-color: var(--dark-gray);
+        }
+    </style>
 </head>
 <body>
     <header>
-        <h1>My Wish List</h1>
-        <nav>
-            <ul>
-                <li><a href="#">Главная</a></li>
-                <li><a href="#">Профиль</a></li>
-                <li><a href="#">Друзья</a></li>
-                <li><span id="notifications">0</span></li>
-                <li><button id="login-btn">Войти</button></li>
-            </ul>
-        </nav>
+        <div class="container header-container">
+            <div class="logo" id="logo">
+                <i class="fas fa-gift"></i> My Wish List
+            </div>
+            <nav>
+                <ul id="main-nav">
+                    <li style="--i:1"><a href="#" id="nav-home"><i class="fas fa-home"></i> Главная</a></li>
+                    <li style="--i:2"><a href="#" id="nav-profile"><i class="fas fa-user"></i> Профиль</a></li>
+                    <li style="--i:3"><a href="#" id="nav-friends">
+                        <i class="fas fa-users"></i> Друзья
+                        <span class="notification-badge" id="friend-requests-badge" style="display: none;">0</span>
+                    </a></li>
+                    <li style="--i:4"><a href="#" id="nav-login"><i class="fas fa-sign-in-alt"></i> Войти</a></li>
+                </ul>
+            </nav>
+        </div>
     </header>
 
-    <main>
-        <section id="wishes-container">
-            <!-- Здесь будут отображаться желания -->
-        </section>
-
-        <button id="add-wish-btn">Добавить желание</button>
+    <main class="container" id="main-content">
+        <!-- Content will be loaded here by JavaScript -->
     </main>
 
-    <!-- Модальное окно для добавления желания -->
-    <div id="add-wish-modal" class="modal">
+    <!-- Модальное окно для добавления/редактирования желания -->
+    <div class="modal" id="wish-modal">
         <div class="modal-content">
+            <span class="close-modal" id="close-wish-modal"><i class="fas fa-times"></i></span>
+            <h2 class="modal-title">Добавить желание</h2>
             <form id="wish-form">
                 <div class="image-upload">
-                    <div id="image-placeholder">Нажмите для загрузки изображения</div>
-                    <input type="file" id="wish-image" accept="image/*">
-                    <button type="button" id="select-image">Выбрать изображение</button>
+                    <div class="image-preview" id="image-preview">
+                        <div class="image-preview-placeholder">
+                            <i class="fas fa-image"></i>
+                            <p>Нажмите для загрузки изображения</p>
+                        </div>
+                    </div>
+                    <div class="upload-btn-wrapper">
+                        <button type="button" class="upload-btn">
+                            <i class="fas fa-upload"></i> Выбрать изображение
+                        </button>
+                        <input type="file" id="wish-image-upload" accept="image/*">
+                    </div>
                 </div>
-                
                 <div class="form-group">
                     <label for="wish-title">Название</label>
                     <input type="text" id="wish-title" required>
+                    <i class="fas fa-gift"></i>
                 </div>
-                
                 <div class="form-group">
                     <label for="wish-description">Описание</label>
-                    <textarea id="wish-description"></textarea>
+                    <input type="text" id="wish-description">
+                    <i class="fas fa-info-circle"></i>
                 </div>
-                
                 <div class="form-group">
                     <label for="wish-link">Ссылка на товар (если есть)</label>
                     <input type="url" id="wish-link">
+                    <i class="fas fa-link"></i>
                 </div>
-                
-                <button type="submit">Сохранить</button>
+                <button type="submit" class="btn btn-block">
+                    <i class="fas fa-save"></i> Сохранить
+                </button>
             </form>
         </div>
     </div>
 
-    <!-- Модальное окно для подтверждения удаления -->
-    <div id="confirm-modal" class="modal">
+    <!-- Модальное окно для просмотра профиля -->
+    <div class="modal" id="profile-view-modal">
         <div class="modal-content">
-            <h3>Подтверждение</h3>
-            <p>Вы уверены?</p>
-            <div class="modal-buttons">
-                <button id="cancel-delete">Отмена</button>
-                <button id="confirm-delete">Удалить</button>
+            <span class="close-modal" id="close-profile-view-modal"><i class="fas fa-times"></i></span>
+            <div id="profile-view-content"></div>
+        </div>
+    </div>
+
+    <!-- Модальное окно подтверждения -->
+    <div class="modal" id="confirm-modal">
+        <div class="modal-content" style="max-width: 400px;">
+            <h2 class="modal-title">Подтверждение</h2>
+            <p id="confirm-message">Вы уверены?</p>
+            <div style="display: flex; justify-content: flex-end; gap: 10px; margin-top: 20px;">
+                <button class="btn btn-outline" id="cancel-confirm">Отмена</button>
+                <button class="btn btn-danger" id="confirm-action">Удалить</button>
             </div>
         </div>
     </div>
 
-    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js"></script>
-    <script src="../src/js/utils.js"></script>
-    <script src="../src/js/auth.js"></script>
-    <script src="../src/js/wishlist.js"></script>
-    <script src="../src/js/app.js"></script>
+    <!-- Кнопка добавления желания -->
+    <button class="add-wish-btn" id="add-wish-btn" style="display: none;"><i class="fas fa-plus"></i></button>
+
+    <script>
+        // Supabase setup for online functionality
+        // Replace this with your actual Supabase credentials
+        const SUPABASE_URL = "https://ffsmpibrovyaqgnprexi.supabase.co";
+        const SUPABASE_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImZmc21waWJyb3Z5YXFnbnByZXhpIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDE2NDQ4MTAsImV4cCI6MjA1NzIyMDgxMH0.zb0fpbjIZV_WlYgncQf6Ws30EK8Deae9QF5p6pjoGT8";
+        const useOnlineDatabase = true; // Set to true when Supabase is configured
+        
+        // Объект для локального хранения и работы с данными
+        const WishListApp = {
+            users: JSON.parse(localStorage.getItem('users')) || [],
+            currentUser: JSON.parse(localStorage.getItem('currentUser')) || null,
+            onlineMode: useOnlineDatabase,
+            loadingData: false,
+            lastSync: localStorage.getItem('lastSync') ? new Date(localStorage.getItem('lastSync')) : null,
+            
+            // DOM elements
+            elements: {
+                mainContent: document.getElementById('main-content'),
+                navHome: document.getElementById('nav-home'),
+                navProfile: document.getElementById('nav-profile'),
+                navFriends: document.getElementById('nav-friends'),
+                navLogin: document.getElementById('nav-login'),
+                logo: document.getElementById('logo'),
+                addWishBtn: document.getElementById('add-wish-btn'),
+                wishModal: document.getElementById('wish-modal'),
+                closeWishModal: document.getElementById('close-wish-modal'),
+                wishForm: document.getElementById('wish-form'),
+                imageUpload: document.getElementById('wish-image-upload'),
+                imagePreview: document.getElementById('image-preview'),
+                friendRequestsBadge: document.getElementById('friend-requests-badge'),
+                profileViewModal: document.getElementById('profile-view-modal'),
+                closeProfileViewModal: document.getElementById('close-profile-view-modal'),
+                confirmModal: document.getElementById('confirm-modal'),
+                cancelConfirm: document.getElementById('cancel-confirm'),
+                confirmAction: document.getElementById('confirm-action')
+            },
+            
+            // Initialize the app
+            init: function() {
+                // Initialize online database if configured
+                if (this.onlineMode) {
+                    this.initOnlineDatabase();
+                }
+                
+                // Update navigation and UI based on authentication state
+                this.updateNavigation();
+                this.updateFriendRequestsBadge();
+                
+                // Set initial page
+                this.renderHomePage();
+                
+                // Set up event listeners
+                this.setupEventListeners();
+            },
+            
+            // Setup all app event listeners
+            setupEventListeners: function() {
+                // Navigation events
+                this.elements.navHome.addEventListener('click', e => {
+                    e.preventDefault();
+                    this.renderHomePage();
+                });
+                
+                this.elements.navProfile.addEventListener('click', e => {
+                    e.preventDefault();
+                    this.renderProfilePage();
+                });
+                
+                this.elements.navFriends.addEventListener('click', e => {
+                    e.preventDefault();
+                    this.renderFriendsPage();
+                });
+                
+                this.elements.navLogin.addEventListener('click', e => {
+                    e.preventDefault();
+                    if (this.currentUser) {
+                        this.handleLogout();
+                    } else {
+                        this.renderAuthPage();
+                    }
+                });
+                
+                this.elements.logo.addEventListener('click', e => {
+                    e.preventDefault();
+                    this.renderHomePage();
+                });
+                
+                // Wish modal events
+                this.elements.addWishBtn.addEventListener('click', () => {
+                    this.openAddWishModal();
+                });
+                
+                this.elements.closeWishModal.addEventListener('click', () => {
+                    this.closeModal(this.elements.wishModal);
+                });
+                
+                this.elements.closeProfileViewModal.addEventListener('click', () => {
+                    this.closeModal(this.elements.profileViewModal);
+                });
+                
+                // Confirm modal
+                this.elements.cancelConfirm.addEventListener('click', () => {
+                    this.closeModal(this.elements.confirmModal);
+                });
+                
+                // Image upload and preview
+                this.elements.imageUpload.addEventListener('change', e => {
+                    this.handleImageUpload(e);
+                });
+                
+                // Wish form submission
+                this.elements.wishForm.addEventListener('submit', e => {
+                    e.preventDefault();
+                    this.handleWishFormSubmit();
+                });
+                
+                // Global click handler for modals
+                window.addEventListener('click', e => {
+                    if (e.target === this.elements.wishModal) {
+                        this.closeModal(this.elements.wishModal);
+                    }
+                    if (e.target === this.elements.profileViewModal) {
+                        this.closeModal(this.elements.profileViewModal);
+                    }
+                    if (e.target === this.elements.confirmModal) {
+                        this.closeModal(this.elements.confirmModal);
+                    }
+                });
+                
+                // Keypress handler for ESC key to close modals
+                window.addEventListener('keydown', e => {
+                    if (e.key === 'Escape') {
+                        this.closeModal(this.elements.wishModal);
+                        this.closeModal(this.elements.profileViewModal);
+                        this.closeModal(this.elements.confirmModal);
+                    }
+                });
+            },
+            
+            // Initialize online database connection (Supabase)
+            initOnlineDatabase: function() {
+                // This would be implemented with actual Supabase connection
+                console.log('Online database connection initialized');
+                // Here you would add real-time subscriptions to friend requests and other data changes
+            },
+            
+            // Update navigation based on authentication state
+            updateNavigation: function() {
+                if (this.currentUser) {
+                    this.elements.navLogin.innerHTML = '<i class="fas fa-sign-out-alt"></i> Выйти';
+                    this.elements.navProfile.style.display = 'block';
+                    this.elements.navFriends.style.display = 'block';
+                    this.elements.addWishBtn.style.display = 'flex';
+                    
+                    // Update active navigation item based on current page
+                    document.querySelectorAll('#main-nav li').forEach(item => item.classList.remove('active'));
+                    const currentPage = window.location.hash.replace('#', '') || 'home';
+                    document.querySelector(`#nav-${currentPage}`).parentElement.classList.add('active');
+                } else {
+                    this.elements.navLogin.innerHTML = '<i class="fas fa-sign-in-alt"></i> Войти';
+                    this.elements.navProfile.style.display = 'none';
+                    this.elements.navFriends.style.display = 'none';
+                    this.elements.addWishBtn.style.display = 'none';
+                }
+            },
+            
+            // Update friend requests notification badge
+            updateFriendRequestsBadge: function() {
+                if (this.currentUser && this.currentUser.friendRequests && this.currentUser.friendRequests.length > 0) {
+                    this.elements.friendRequestsBadge.textContent = this.currentUser.friendRequests.length;
+                    this.elements.friendRequestsBadge.style.display = 'flex';
+                } else {
+                    this.elements.friendRequestsBadge.style.display = 'none';
+                }
+            },
+            
+            // Render the home page
+            renderHomePage: function() {
+                // Change URL hash without triggering page reload
+                history.pushState(null, '', '#home');
+                
+                if (this.currentUser) {
+                    // User is logged in, show their wishes and stats
+                    this.elements.mainContent.innerHTML = `
+                        <h1>Добро пожаловать, ${this.currentUser.name}!</h1>
+                        <div class="profile-container">
+                            <div class="profile-sidebar">
+                                <img src="${this.currentUser.avatar || 'https://ui-avatars.com/api/?name=' + encodeURIComponent(this.currentUser.name) + '&background=5b48d9&color=fff'}" 
+                                     alt="${this.currentUser.name}" class="profile-avatar">
+                                <h2>Мои желания</h2>
+                                <p>У вас ${this.currentUser.wishes ? this.currentUser.wishes.length : 0} желаний в списке</p>
+                                <button class="btn btn-block" id="edit-profile-btn">
+                                    <i class="fas fa-edit"></i> Редактировать профиль
+                                </button>
+                            </div>
+                            <div class="profile-content">
+                                <h2>Мой список желаний</h2>
+                                <div class="wish-grid" id="my-wishes">
+                                    ${this.currentUser.wishes && this.currentUser.wishes.length 
+                                      ? this.renderWishes(this.currentUser.wishes) 
+                                      : `
+                                        <div style="grid-column: 1 / -1; text-align: center; padding: 30px 0;">
+                                            <i class="fas fa-gift" style="font-size: 48px; color: var(--light-gray); display: block; margin-bottom: 15px;"></i>
+                                            <p>У вас пока нет желаний. Добавьте первое!</p>
+                                            <button class="btn" style="margin-top: 15px;" id="home-add-wish-btn">
+                                                <i class="fas fa-plus"></i> Добавить желание
+                                            </button>
+                                        </div>
+                                      `}
+                                </div>
+                            </div>
+                        </div>
+                    `;
+                    
+                    // Add event listeners
+                    document.getElementById('edit-profile-btn').addEventListener('click', () => {
+                        this.renderProfilePage();
+                    });
+                    
+                    const homeAddWishBtn = document.getElementById('home-add-wish-btn');
+                    if (homeAddWishBtn) {
+                        homeAddWishBtn.addEventListener('click', () => {
+                            this.openAddWishModal();
+                        });
+                    }
+                    
+                    // Add wish item event listeners
+                    this.addWishEventListeners();
+                } else {
+                    // User is not logged in, show welcome screen
+                    this.elements.mainContent.innerHTML = `
+                        <div class="welcome-animation">
+                            <h1>Добро пожаловать в My Wish List!</h1>
+                            <p>Создайте список желаний и делитесь им с друзьями</p>
+                            <button class="btn" id="home-login-btn">
+                                <i class="fas fa-sign-in-alt"></i> Войти или зарегистрироваться
+                            </button>
+                        </div>
+                    `;
+                    
+                    document.getElementById('home-login-btn').addEventListener('click', () => {
+                        this.renderAuthPage();
+                    });
+                }
+            },
+            
+            // Render the authentication page (login/register)
+            renderAuthPage: function() {
+                history.pushState(null, '', '#auth');
+                
+                this.elements.mainContent.innerHTML = `
+                    <div class="auth-container" id="login-form">
+                        <h2>Вход</h2>
+                        <div class="error-message" id="login-error" style="display: none;"></div>
+                        <div class="form-group">
+                            <label for="login-username">Имя пользователя или Email</label>
+                            <input type="text" id="login-username" required>
+                            <i class="fas fa-user"></i>
+                        </div>
+                        <div class="form-group">
+                            <label for="login-password">Пароль</label>
+                            <input type="password" id="login-password" required>
+                            <i class="fas fa-lock"></i>
+                        </div>
+                        <button type="button" class="btn btn-block" id="login-btn">
+                            <i class="fas fa-sign-in-alt"></i> Войти
+                        </button>
+                        <div class="switch-form">
+                            <p>Нет аккаунта? <a id="show-register">Зарегистрироваться</a></p>
+                        </div>
+                    </div>
+                    
+                    <div class="auth-container" id="register-form" style="display: none;">
+                        <h2>Регистрация</h2>
+                        <div class="error-message" id="register-error" style="display: none;"></div>
+                        <div class="form-group">
+                            <label for="register-name">Имя</label>
+                            <input type="text" id="register-name" required>
+                            <i class="fas fa-user"></i>
+                        </div>
+                        <div class="form-group">
+                            <label for="register-username">Имя пользователя</label>
+                            <input type="text" id="register-username" required>
+                            <i class="fas fa-at"></i>
+                        </div>
+                        <div class="form-group">
+                            <label for="register-email">Email</label>
+                            <input type="email" id="register-email" required>
+                            <i class="fas fa-envelope"></i>
+                        </div>
+                        <div class="form-group">
+                            <label for="register-password">Пароль</label>
+                            <input type="password" id="register-password" required>
+                            <i class="fas fa-lock"></i>
+                        </div>
+                        <div class="form-group">
+                            <label for="register-confirm">Подтвердите пароль</label>
+                            <input type="password" id="register-confirm" required>
+                            <i class="fas fa-lock"></i>
+                        </div>
+                        <button type="button" class="btn btn-block" id="register-btn">
+                            <i class="fas fa-user-plus"></i> Зарегистрироваться
+                        </button>
+                        <div class="switch-form">
+                            <p>Уже есть аккаунт? <a id="show-login">Войти</a></p>
+                        </div>
+                    </div>
+                `;
+                
+                // Switch between forms
+                document.getElementById('show-register').addEventListener('click', () => {
+                    document.getElementById('login-form').style.display = 'none';
+                    document.getElementById('register-form').style.display = 'flex';
+                });
+                
+                document.getElementById('show-login').addEventListener('click', () => {
+                    document.getElementById('register-form').style.display = 'none';
+                    document.getElementById('login-form').style.display = 'flex';
+                });
+                
+                // Authentication handlers
+                document.getElementById('login-btn').addEventListener('click', () => {
+                    this.handleLogin();
+                });
+                
+                document.getElementById('register-btn').addEventListener('click', () => {
+                    this.handleRegister();
+                });
+            },
+            
+            // Handle user login
+            handleLogin: function() {
+                const usernameOrEmail = document.getElementById('login-username').value.trim();
+                const password = document.getElementById('login-password').value;
+                const errorElement = document.getElementById('login-error');
+                
+                if (!usernameOrEmail || !password) {
+                    errorElement.textContent = 'Пожалуйста, заполните все поля';
+                    errorElement.style.display = 'block';
+                    return;
+                }
+                
+                // Find user by username or email
+                const user = this.users.find(u => 
+                    (u.username === usernameOrEmail || u.email === usernameOrEmail) && 
+                    u.password === password
+                );
+                
+                if (user) {
+                    this.currentUser = user;
+                    localStorage.setItem('currentUser', JSON.stringify(this.currentUser));
+                    this.updateNavigation();
+                    this.updateFriendRequestsBadge();
+                    this.renderHomePage();
+                    
+                    // If online mode is enabled, fetch the latest data for user
+                    if (this.onlineMode) {
+                        this.syncUserData();
+                    }
+                } else {
+                    errorElement.textContent = 'Неверное имя пользователя/email или пароль';
+                    errorElement.style.display = 'block';
+                }
+            },
+            
+            // Handle user registration
+            handleRegister: function() {
+                const name = document.getElementById('register-name').value.trim();
+                const username = document.getElementById('register-username').value.trim();
+                const email = document.getElementById('register-email').value.trim();
+                const password = document.getElementById('register-password').value;
+                const confirm = document.getElementById('register-confirm').value;
+                const errorElement = document.getElementById('register-error');
+                
+                // Validation
+                if (!name || !username || !email || !password || !confirm) {
+                    errorElement.textContent = 'Пожалуйста, заполните все поля';
+                    errorElement.style.display = 'block';
+                    return;
+                }
+                
+                // Username validation (no spaces, only alphanumeric and underscore)
+                if (!/^[a-zA-Z0-9_]+$/.test(username)) {
+                    errorElement.textContent = 'Имя пользователя может содержать только буквы, цифры и знак подчеркивания';
+                    errorElement.style.display = 'block';
+                    return;
+                }
+                
+                // Email validation
+                if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+                    errorElement.textContent = 'Пожалуйста, введите корректный email';
+                    errorElement.style.display = 'block';
+                    return;
+                }
+                
+                // Password validation
+                if (password.length < 6) {
+                    errorElement.textContent = 'Пароль должен содержать не менее 6 символов';
+                    errorElement.style.display = 'block';
+                    return;
+                }
+                
+                // Password match
+                if (password !== confirm) {
+                    errorElement.textContent = 'Пароли не совпадают';
+                    errorElement.style.display = 'block';
+                    return;
+                }
+                
+                // Check if username or email is already in use
+                if (this.users.some(u => u.username === username)) {
+                    errorElement.textContent = 'Пользователь с таким именем уже существует';
+                    errorElement.style.display = 'block';
+                    return;
+                }
+                
+                if (this.users.some(u => u.email === email)) {
+                    errorElement.textContent = 'Пользователь с таким email уже существует';
+                    errorElement.style.display = 'block';
+                    return;
+                }
+                
+                // Create new user
+                const newUser = {
+                    id: Date.now().toString(),
+                    name,
+                    username,
+                    email,
+                    password,
+                    avatar: null,
+                    wishes: [],
+                    friends: [],
+                    friendRequests: [],
+                    createdAt: new Date().toISOString()
+                };
+                
+                this.users.push(newUser);
+                localStorage.setItem('users', JSON.stringify(this.users));
+                
+                // Automatically log in
+                this.currentUser = newUser;
+                localStorage.setItem('currentUser', JSON.stringify(this.currentUser));
+                this.updateNavigation();
+                this.renderHomePage();
+                
+                // If online mode is enabled, create the user online
+                if (this.onlineMode) {
+                    // Here you would make API call to create user in Supabase
+                }
+            },
+            
+            // Handle user logout
+            handleLogout: function() {
+                this.currentUser = null;
+                localStorage.removeItem('currentUser');
+                this.updateNavigation();
+                this.renderHomePage();
+            },
+            
+            // Render the profile page
+            renderProfilePage: function() {
+                history.pushState(null, '', '#profile');
+                
+                if (!this.currentUser) {
+                    this.renderAuthPage();
+                    return;
+                }
+                
+                this.elements.mainContent.innerHTML = `
+                    <h1>Мой профиль</h1>
+                    <div class="profile-container">
+                        <div class="profile-sidebar">
+                            <div class="image-upload">
+                                <div class="image-preview profile-avatar-preview" id="profile-avatar-preview">
+                                    <img src="${this.currentUser.avatar || 'https://ui-avatars.com/api/?name=' + encodeURIComponent(this.currentUser.name) + '&background=5b48d9&color=fff'}" 
+                                         alt="${this.currentUser.name}">
+                                </div>
+                                <div class="upload-btn-wrapper" style="margin-top: 10px;">
+                                    <button type="button" class="upload-btn">
+                                        <i class="fas fa-upload"></i> Изменить фото
+                                    </button>
+                                    <input type="file" id="profile-avatar-upload" accept="image/*">
+                                </div>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="profile-name">Имя</label>
+                                <input type="text" id="profile-name" value="${this.currentUser.name}">
+                                <i class="fas fa-user"></i>
+                            </div>
+                            <div class="form-group">
+                                <label for="profile-username">Имя пользователя</label>
+                                <input type="text" id="profile-username" value="${this.currentUser.username}" readonly>
+                                <i class="fas fa-at"></i>
+                            </div>
+                            <div class="form-group">
+                                <label for="profile-email">Email</label>
+                                <input type="email" id="profile-email" value="${this.currentUser.email}" readonly>
+                                <i class="fas fa-envelope"></i>
+                            </div>
+                            <button class="btn btn-block" id="save-profile-btn">
+                                <i class="fas fa-save"></i> Сохранить изменения
+                            </button>
+                            <div class="success-message" id="profile-success" style="display: none; margin-top: 15px;">
+                                Профиль успешно обновлен
+                                <span class="message-close" id="close-success"><i class="fas fa-times"></i></span>
+                            </div>
+                        </div>
+                        <div class="profile-content">
+                            <div class="tabs">
+                                <div class="tab active" data-tab="wishes">Мои желания</div>
+                                <div class="tab" data-tab="friends">Друзья</div>
+                                <div class="tab" data-tab="settings">Настройки</div>
+                            </div>
+                            <div class="tab-content active" id="wishes-tab">
+                                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
+                                    <h2>Мой список желаний</h2>
+                                    <button class="btn" id="profile-add-wish-btn">
+                                        <i class="fas fa-plus"></i> Добавить желание
+                                    </button>
+                                </div>
+                                <div class="wish-grid" id="profile-wishes">
+                                    ${this.currentUser.wishes && this.currentUser.wishes.length 
+                                      ? this.renderWishes(this.currentUser.wishes) 
+                                      : `
+                                        <div style="grid-column: 1 / -1; text-align: center; padding: 30px 0;">
+                                            <i class="fas fa-gift" style="font-size: 48px; color: var(--light-gray); display: block; margin-bottom: 15px;"></i>
+                                            <p>У вас пока нет желаний. Добавьте первое!</p>
+                                        </div>
+                                      `}
+                                </div>
+                            </div>
+                            <div class="tab-content" id="friends-tab">
+                                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
+                                    <h2>Мои друзья</h2>
+                                    <button class="btn" id="find-friends-btn">
+                                        <i class="fas fa-search"></i> Найти друзей
+                                    </button>
+                                </div>
+                                <div id="friends-list">
+                                    ${this.renderFriends()}
+                                </div>
+                                
+                                <h3 style="margin-top: 30px;">Запросы в друзья</h3>
+                                <div id="friend-requests">
+                                    ${this.renderFriendRequests()}
+                                </div>
+                            </div>
+                            <div class="tab-content" id="settings-tab">
+                                <h2>Настройки</h2>
+                                <div class="form-group">
+                                    <label for="setting-privacy">Приватность списка желаний</label>
+                                    <select id="setting-privacy" class="form-control">
+                                        <option value="public" ${this.currentUser.privacy === 'public' ? 'selected' : ''}>Публичный (виден всем)</option>
+                                        <option value="friends" ${this.currentUser.privacy === 'friends' || !this.currentUser.privacy ? 'selected' : ''}>Только друзья</option>
+                                        <option value="private" ${this.currentUser.privacy === 'private' ? 'selected' : ''}>Приватный (только я)</option>
+                                    </select>
+                                </div>
+                                <div class="form-group">
+                                    <label for="setting-theme">Тема оформления</label>
+                                    <select id="setting-theme" class="form-control">
+                                        <option value="light" selected>Светлая</option>
+                                        <option value="dark">Темная (скоро)</option>
+                                    </select>
+                                </div>
+                                <button class="btn" id="save-settings-btn">
+                                    <i class="fas fa-save"></i> Сохранить настройки
+                                </button>
+                                
+                                <h3 style="margin-top: 30px; color: var(--danger-color);">Опасная зона</h3>
+                                <p style="color: var(--dark-gray); margin-bottom: 15px;">Эти действия невозможно отменить, будьте внимательны!</p>
+                                <button class="btn btn-danger" id="delete-account-btn">
+                                    <i class="fas fa-trash-alt"></i> Удалить аккаунт
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                `;
+                
+                // Setup profile avatar upload
+                const profileAvatarUpload = document.getElementById('profile-avatar-upload');
+                profileAvatarUpload.addEventListener('change', e => {
+                    this.handleProfileAvatarUpload(e);
+                });
+                
+                // Save profile button
+                document.getElementById('save-profile-btn').addEventListener('click', () => {
+                    this.saveProfileChanges();
+                });
+                
+                // Tab navigation
+                document.querySelectorAll('.tab').forEach(tab => {
+                    tab.addEventListener('click', () => {
+                        document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+                        document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
+                        
+                        tab.classList.add('active');
+                        document.getElementById(`${tab.dataset.tab}-tab`).classList.add('active');
+                    });
+                });
+                
+                // Add wish button
+                document.getElementById('profile-add-wish-btn').addEventListener('click', () => {
+                    this.openAddWishModal();
+                });
+                
+                // Find friends button
+                document.getElementById('find-friends-btn').addEventListener('click', () => {
+                    this.renderFriendsPage();
+                });
+                
+                // Save settings button
+                document.getElementById('save-settings-btn').addEventListener('click', () => {
+                    this.saveUserSettings();
+                });
+                
+                // Delete account button
+                document.getElementById('delete-account-btn').addEventListener('click', () => {
+                    this.confirmDeleteAccount();
+                });
+                
+                // Close success message
+                const closeSuccess = document.getElementById('close-success');
+                if (closeSuccess) {
+                    closeSuccess.addEventListener('click', () => {
+                        document.getElementById('profile-success').style.display = 'none';
+                    });
+                }
+                
+                // Add event listeners for wishes and friends
+                this.addWishEventListeners();
+                this.addFriendEventListeners();
+            },
+            
+            // Render the friends page
+            renderFriendsPage: function() {
+                history.pushState(null, '', '#friends');
+                
+                if (!this.currentUser) {
+                    this.renderAuthPage();
+                    return;
+                }
+                
+                this.elements.mainContent.innerHTML = `
+                    <h1>Друзья</h1>
+                    <div class="profile-container">
+                        <div class="profile-sidebar">
+                            <h2>Поиск друзей</h2>
+                            <div class="form-group">
+                                <label for="friend-search">Поиск по имени или имени пользователя</label>
+                                <input type="text" id="friend-search" placeholder="Введите имя или @username">
+                                <i class="fas fa-search"></i>
+                            </div>
+                            <button class="btn btn-block" id="search-friend-btn">
+                                <i class="fas fa-search"></i> Поиск
+                            </button>
+                            <div id="search-results" style="margin-top: 20px;"></div>
+                        </div>
+                        <div class="profile-content">
+                            <h2>Мои друзья</h2>
+                            <div id="friends-container">
+                                ${this.renderFriends()}
+                            </div>
+                            
+                            <h3 style="margin-top: 30px;">Запросы в друзья</h3>
+                            <div id="friend-requests-container">
+                                ${this.renderFriendRequests()}
+                            </div>
+                        </div>
+                    </div>
+                `;
+                
+                // Search button
+                document.getElementById('search-friend-btn').addEventListener('click', () => {
+                    this.searchFriends();
+                });
+                
+                // Enter key in search field
+                document.getElementById('friend-search').addEventListener('keypress', e => {
+                    if (e.key === 'Enter') {
+                        this.searchFriends();
+                    }
+                });
+                
+                // Add friend event listeners
+                this.addFriendEventListeners();
+            },
+            
+            // Handle searching for friends
+            searchFriends: function() {
+                const searchTerm = document.getElementById('friend-search').value.trim();
+                const resultsContainer = document.getElementById('search-results');
+                
+                if (!searchTerm) {
+                    resultsContainer.innerHTML = '<p>Введите имя или имя пользователя для поиска</p>';
+                    return;
+                }
+                
+                // Search in users by name or username
+                let results = this.users.filter(u => {
+                    if (u.id === this.currentUser.id) return false; // Exclude current user
+                    
+                    const byName = u.name.toLowerCase().includes(searchTerm.toLowerCase());
+                    const byUsername = searchTerm.startsWith('@') 
+                        ? u.username.toLowerCase() === searchTerm.substring(1).toLowerCase() 
+                        : u.username.toLowerCase().includes(searchTerm.toLowerCase());
+                    
+                    return byName || byUsername;
+                });
+                
+                if (results.length) {
+                    resultsContainer.innerHTML = `<h3>Результаты поиска (${results.length})</h3>`;
+                    
+                    results.forEach((user, index) => {
+                        const isFriend = this.currentUser.friends && this.currentUser.friends.includes(user.id);
+                        const requestSent = user.friendRequests && user.friendRequests.includes(this.currentUser.id);
+                        const receivedRequest = this.currentUser.friendRequests && this.currentUser.friendRequests.includes(user.id);
+                        
+                        let actionButton = '';
+                        if (isFriend) {
+                            actionButton = `
+                                <button class="btn btn-sm btn-outline" disabled>
+                                    <i class="fas fa-check"></i> В друзьях
+                                </button>
+                                <button class="btn btn-sm btn-danger remove-friend-btn" data-id="${user.id}">
+                                    <i class="fas fa-user-minus"></i> Удалить
+                                </button>
+                            `;
+                        } else if (requestSent) {
+                            actionButton = `
+                                <button class="btn btn-sm btn-outline" disabled>
+                                    <i class="fas fa-clock"></i> Запрос отправлен
+                                </button>
+                                <button class="btn btn-sm btn-danger cancel-friend-request-btn" data-id="${user.id}">
+                                    <i class="fas fa-times"></i> Отменить
+                                </button>
+                            `;
+                        } else if (receivedRequest) {
+                            actionButton = `
+                                <button class="btn btn-sm btn-success accept-friend-btn" data-id="${user.id}">
+                                    <i class="fas fa-check"></i> Принять
+                                </button>
+                                <button class="btn btn-sm btn-danger decline-friend-btn" data-id="${user.id}">
+                                    <i class="fas fa-times"></i> Отклонить
+                                </button>
+                            `;
+                        } else {
+                            actionButton = `
+                                <button class="btn btn-sm add-friend-btn" data-id="${user.id}">
+                                    <i class="fas fa-user-plus"></i> Добавить в друзья
+                                </button>
+                            `;
+                        }
+                        
+                        resultsContainer.innerHTML += `
+                            <div class="friend-item" style="--i:${index}">
+                                <img src="${user.avatar || 'https://ui-avatars.com/api/?name=' + encodeURIComponent(user.name) + '&background=5b48d9&color=fff'}" 
+                                     alt="${user.name}" class="friend-avatar">
+                                <div class="friend-info">
+                                    <div class="friend-name">${user.name}</div>
+                                    <div class="friend-username">@${user.username}</div>
+                                </div>
+                                <div class="friend-actions">
+                                    ${actionButton}
+                                    <button class="btn btn-sm btn-outline view-profile-btn" data-id="${user.id}">
+                                        <i class="fas fa-eye"></i> Профиль
+                                    </button>
+                                </div>
+                            </div>
+                        `;
+                    });
+                    
+                    // Add event listeners for friend actions
+                    this.addFriendActionListeners();
+                } else {
+                    resultsContainer.innerHTML = `
+                        <div style="text-align: center; padding: 20px 0;">
+                            <i class="fas fa-search" style="font-size: 32px; color: var(--light-gray); display: block; margin-bottom: 10px;"></i>
+                            <p>Пользователи не найдены</p>
+                        </div>
+                    `;
+                }
+            },
+            
+            // Render list of friends
+            renderFriends: function() {
+                if (!this.currentUser.friends || this.currentUser.friends.length === 0) {
+                    return `
+                        <div style="text-align: center; padding: 30px 0;">
+                            <i class="fas fa-users" style="font-size: 48px; color: var(--light-gray); display: block; margin-bottom: 15px;"></i>
+                            <p>У вас пока нет друзей</p>
+                            <button class="btn" id="no-friends-find-btn" style="margin-top: 15px;">
+                                <i class="fas fa-search"></i> Найти друзей
+                            </button>
+                        </div>
+                    `;
+                }
+                
+                let friendsHtml = '';
+                
+                this.currentUser.friends.forEach((friendId, index) => {
+                    const friend = this.users.find(u => u.id === friendId);
+                    if (!friend) return;
+                    
+                    friendsHtml += `
+                        <div class="friend-item" style="--i:${index}">
+                            <img src="${friend.avatar || 'https://ui-avatars.com/api/?name=' + encodeURIComponent(friend.name) + '&background=5b48d9&color=fff'}" 
+                                 alt="${friend.name}" class="friend-avatar">
+                            <div class="friend-info">
+                                <div class="friend-name">${friend.name}</div>
+                                <div class="friend-username">@${friend.username}</div>
+                            </div>
+                            <div class="friend-actions">
+                                <button class="btn btn-sm view-friend-wishes-btn" data-id="${friend.id}">
+                                    <i class="fas fa-gift"></i> Список желаний
+                                </button>
+                                <button class="btn btn-sm btn-outline view-profile-btn" data-id="${friend.id}">
+                                    <i class="fas fa-eye"></i> Профиль
+                                </button>
+                                <button class="btn btn-sm btn-danger remove-friend-btn" data-id="${friend.id}">
+                                    <i class="fas fa-user-minus"></i>
+                                </button>
+                            </div>
+                        </div>
+                    `;
+                });
+                
+                return friendsHtml;
+            },
+            
+            // Render friend requests
+            renderFriendRequests: function() {
+                if (!this.currentUser.friendRequests || this.currentUser.friendRequests.length === 0) {
+                    return '<p>У вас нет запросов в друзья</p>';
+                }
+                
+                let requestsHtml = '';
+                
+                this.currentUser.friendRequests.forEach((requestId, index) => {
+                    const requester = this.users.find(u => u.id === requestId);
+                    if (!requester) return;
+                    
+                    requestsHtml += `
+                        <div class="friend-item" style="--i:${index}">
+                            <img src="${requester.avatar || 'https://ui-avatars.com/api/?name=' + encodeURIComponent(requester.name) + '&background=5b48d9&color=fff'}" 
+                                 alt="${requester.name}" class="friend-avatar">
+                            <div class="friend-info">
+                                <div class="friend-name">${requester.name}</div>
+                                <div class="friend-username">@${requester.username}</div>
+                            </div>
+                            <div class="friend-actions">
+                                <button class="btn btn-sm btn-success accept-friend-btn" data-id="${requester.id}">
+                                    <i class="fas fa-check"></i> Принять
+                                </button>
+                                <button class="btn btn-sm btn-danger decline-friend-btn" data-id="${requester.id}">
+                                    <i class="fas fa-times"></i> Отклонить
+                                </button>
+                                <button class="btn btn-sm btn-outline view-profile-btn" data-id="${requester.id}">
+                                    <i class="fas fa-eye"></i> Профиль
+                                </button>
+                            </div>
+                        </div>
+                    `;
+                });
+                
+                return requestsHtml;
+            },
+            
+            // Render wishes
+            renderWishes: function(wishes) {
+                let wishesHtml = '';
+                
+                wishes.forEach((wish, index) => {
+                    const isReserved = wish.reservedBy && wish.reservedBy !== this.currentUser.id;
+                    const reservedByName = isReserved ? this.users.find(u => u.id === wish.reservedBy)?.name : '';
+                    
+                    wishesHtml += `
+                        <div class="wish-item" data-id="${wish.id}" style="--i:${index}">
+                            ${isReserved ? `<div class="wish-reserved-badge">Зарезервировано: ${reservedByName}</div>` : ''}
+                            <div class="wish-img-container">
+                                <img src="${wish.image || 'https://placehold.co/300x200?text=Нет+изображения'}" 
+                                     alt="${wish.title}" class="wish-img">
+                            </div>
+                            <div class="wish-content">
+                                <h3 class="wish-title">${wish.title}</h3>
+                                <p class="wish-desc">${wish.description || ''}</p>
+                                ${wish.link ? `
+                                    <a href="${wish.link}" target="_blank" class="wish-link">
+                                        <i class="fas fa-external-link-alt"></i> Ссылка на товар
+                                    </a>` : ''}
+                                <div class="wish-actions">
+                                    <button class="btn btn-sm edit-wish-btn" data-id="${wish.id}">
+                                        <i class="fas fa-edit"></i> Изменить
+                                    </button>
+                                    <button class="btn btn-sm btn-danger delete-wish-btn" data-id="${wish.id}">
+                                        <i class="fas fa-trash-alt"></i> Удалить
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    `;
+                });
+                
+                return wishesHtml;
+            },
+            
+            // Render friend's wishes
+            renderFriendWishes: function(wishes, friendId) {
+                let wishesHtml = '';
+                
+                wishes.forEach((wish, index) => {
+                    const isReserved = wish.reservedBy;
+                    const isReservedByMe = wish.reservedBy === this.currentUser.id;
+                    const reservedByName = isReserved && !isReservedByMe ? 
+                        this.users.find(u => u.id === wish.reservedBy)?.name : '';
+                    
+                    wishesHtml += `
+                        <div class="wish-item" data-id="${wish.id}" style="--i:${index}">
+                            ${isReserved && !isReservedByMe ? 
+                                `<div class="wish-reserved-badge">Зарезервировано: ${reservedByName}</div>` : 
+                                isReservedByMe ? 
+                                `<div class="wish-reserved-badge" style="background-color: var(--success-color); color: white;">
+                                    <i class="fas fa-check"></i> Вы зарезервировали
+                                </div>` : ''}
+                            <div class="wish-img-container">
+                                <img src="${wish.image || 'https://placehold.co/300x200?text=Нет+изображения'}" 
+                                     alt="${wish.title}" class="wish-img">
+                            </div>
+                            <div class="wish-content">
+                                <h3 class="wish-title">${wish.title}</h3>
+                                <p class="wish-desc">${wish.description || ''}</p>
+                                ${wish.link ? `
+                                    <a href="${wish.link}" target="_blank" class="wish-link">
+                                        <i class="fas fa-external-link-alt"></i> Ссылка на товар
+                                    </a>` : ''}
+                                <div class="wish-actions">
+                                    ${isReserved && !isReservedByMe ? 
+                                      `<button class="btn btn-sm" disabled>
+                                          <i class="fas fa-lock"></i> Зарезервировано
+                                       </button>` : 
+                                      `<button class="btn btn-sm ${isReservedByMe ? 'btn-success' : ''} reserve-wish-btn" 
+                                           data-id="${wish.id}" data-friend="${friendId}">
+                                          <i class="fas fa-${isReservedByMe ? 'check' : 'gift'}"></i> 
+                                          ${isReservedByMe ? 'Отменить резервацию' : 'Зарезервировать'}
+                                       </button>`
+                                    }
+                                </div>
+                            </div>
+                        </div>
+                    `;
+                });
+                
+                return wishesHtml;
+            },
+            
+            // Add event listeners for wish actions
+            addWishEventListeners: function() {
+                // Edit wish
+                document.querySelectorAll('.edit-wish-btn').forEach(btn => {
+                    btn.addEventListener('click', () => {
+                        const wishId = btn.dataset.id;
+                        this.openEditWishModal(wishId);
+                    });
+                });
+                
+                // Delete wish
+                document.querySelectorAll('.delete-wish-btn').forEach(btn => {
+                    btn.addEventListener('click', () => {
+                        const wishId = btn.dataset.id;
+                        this.confirmDeleteWish(wishId);
+                    });
+                });
+            },
+            
+            // Add event listeners for friend actions
+            addFriendEventListeners: function() {
+                // View friend's wishes
+                document.querySelectorAll('.view-friend-wishes-btn').forEach(btn => {
+                    btn.addEventListener('click', () => {
+                        const friendId = btn.dataset.id;
+                        this.viewFriendWishes(friendId);
+                    });
+                });
+                
+                // View profile
+                document.querySelectorAll('.view-profile-btn').forEach(btn => {
+                    btn.addEventListener('click', () => {
+                        const userId = btn.dataset.id;
+                        this.viewUserProfile(userId);
+                    });
+                });
+                
+                // Add remaining friend action listeners
+                this.addFriendActionListeners();
+                
+                // No friends find button
+                const noFriendsFindBtn = document.getElementById('no-friends-find-btn');
+                if (noFriendsFindBtn) {
+                    noFriendsFindBtn.addEventListener('click', () => {
+                        this.renderFriendsPage();
+                    });
+                }
+            },
+            
+            // Add event listeners for friend actions (add, accept, decline, etc.)
+            addFriendActionListeners: function() {
+                // Add friend
+                document.querySelectorAll('.add-friend-btn').forEach(btn => {
+                    btn.addEventListener('click', () => {
+                        const friendId = btn.dataset.id;
+                        this.sendFriendRequest(friendId);
+                        
+                        // Update button appearance
+                        btn.innerHTML = '<i class="fas fa-clock"></i> Запрос отправлен';
+                        btn.disabled = true;
+                        btn.classList.add('btn-outline');
+                    });
+                });
+                
+                // Accept friend request
+                document.querySelectorAll('.accept-friend-btn').forEach(btn => {
+                    btn.addEventListener('click', () => {
+                        const friendId = btn.dataset.id;
+                        this.acceptFriendRequest(friendId);
+                    });
+                });
+                
+                // Decline friend request
+                document.querySelectorAll('.decline-friend-btn').forEach(btn => {
+                    btn.addEventListener('click', () => {
+                        const friendId = btn.dataset.id;
+                        this.declineFriendRequest(friendId);
+                    });
+                });
+                
+                // Remove friend
+                document.querySelectorAll('.remove-friend-btn').forEach(btn => {
+                    btn.addEventListener('click', () => {
+                        const friendId = btn.dataset.id;
+                        this.confirmRemoveFriend(friendId);
+                    });
+                });
+                
+                // Cancel friend request
+                document.querySelectorAll('.cancel-friend-request-btn').forEach(btn => {
+                    btn.addEventListener('click', () => {
+                        const friendId = btn.dataset.id;
+                        this.cancelFriendRequest(friendId);
+                    });
+                });
+            },
+            
+            // Open modal to add a new wish
+            openAddWishModal: function() {
+                // Reset form and preview
+                this.elements.wishForm.reset();
+                this.elements.imagePreview.innerHTML = `
+                    <div class="image-preview-placeholder">
+                        <i class="fas fa-image"></i>
+                        <p>Нажмите для загрузки изображения</p>
+                    </div>
+                `;
+                
+                // Set form mode
+                this.elements.wishForm.dataset.mode = 'add';
+                delete this.elements.wishForm.dataset.wishId;
+                
+                // Update modal title
+                document.querySelector('#wish-modal .modal-title').textContent = 'Добавить желание';
+                
+                // Open modal
+                this.openModal(this.elements.wishModal);
+            },
+            
+            // Open modal to edit an existing wish
+            openEditWishModal: function(wishId) {
+                const wish = this.currentUser.wishes.find(w => w.id === wishId);
+                
+                if (wish) {
+                    // Fill form with wish data
+                    document.getElementById('wish-title').value = wish.title;
+                    document.getElementById('wish-description').value = wish.description || '';
+                    document.getElementById('wish-link').value = wish.link || '';
+                    
+                    // Show image preview if exists
+                    if (wish.image) {
+                        this.elements.imagePreview.innerHTML = `<img src="${wish.image}" alt="${wish.title}">`;
+                    } else {
+                        this.elements.imagePreview.innerHTML = `
+                            <div class="image-preview-placeholder">
+                                <i class="fas fa-image"></i>
+                                <p>Нажмите для загрузки изображения</p>
+                            </div>
+                        `;
+                    }
+                    
+                    // Set form mode
+                    this.elements.wishForm.dataset.mode = 'edit';
+                    this.elements.wishForm.dataset.wishId = wishId;
+                    
+                    // Update modal title
+                    document.querySelector('#wish-modal .modal-title').textContent = 'Редактировать желание';
+                    
+                    // Open modal
+                    this.openModal(this.elements.wishModal);
+                }
+            },
+            
+            // Handle image upload for wishes
+            handleImageUpload: function(event) {
+                const file = event.target.files[0];
+                if (!file) return;
+                
+                // Check file type
+                if (!file.type.match('image.*')) {
+                    alert('Пожалуйста, выберите изображение');
+                    return;
+                }
+                
+                // Check file size (max 5MB)
+                if (file.size > 5 * 1024 * 1024) {
+                    alert('Размер файла не должен превышать 5MB');
+                    return;
+                }
+                
+                // Create file reader to read the file
+                const reader = new FileReader();
+                
+                reader.onload = e => {
+                    // Display image preview
+                    this.elements.imagePreview.innerHTML = `<img src="${e.target.result}" alt="Preview">`;
+                    
+                    // Store the base64 data for later use
+                    this.elements.imagePreview.dataset.base64 = e.target.result;
+                };
+                
+                reader.readAsDataURL(file);
+            },
+            
+            // Handle profile avatar upload
+            handleProfileAvatarUpload: function(event) {
+                const file = event.target.files[0];
+                if (!file) return;
+                
+                // Check file type
+                if (!file.type.match('image.*')) {
+                    alert('Пожалуйста, выберите изображение');
+                    return;
+                }
+                
+                // Check file size (max 2MB)
+                if (file.size > 2 * 1024 * 1024) {
+                    alert('Размер файла не должен превышать 2MB');
+                    return;
+                }
+                
+                // Create file reader to read the file
+                const reader = new FileReader();
+                
+                reader.onload = e => {
+                    // Display image preview
+                    const avatarPreview = document.getElementById('profile-avatar-preview');
+                    avatarPreview.innerHTML = `<img src="${e.target.result}" alt="Avatar Preview">`;
+                    
+                    // Store the base64 data
+                    avatarPreview.dataset.base64 = e.target.result;
+                };
+                
+                reader.readAsDataURL(file);
+            },
+            
+            // Handle wish form submission
+            handleWishFormSubmit: function() {
+                const title = document.getElementById('wish-title').value.trim();
+                const description = document.getElementById('wish-description').value.trim();
+                const link = document.getElementById('wish-link').value.trim();
+                const imageBase64 = this.elements.imagePreview.dataset.base64;
+                
+                // Basic validation
+                if (!title) {
+                    alert('Пожалуйста, введите название желания');
+                    return;
+                }
+                
+                const mode = this.elements.wishForm.dataset.mode;
+                
+                if (mode === 'edit') {
+                    const wishId = this.elements.wishForm.dataset.wishId;
+                    const wishIndex = this.currentUser.wishes.findIndex(w => w.id === wishId);
+                    
+                    if (wishIndex !== -1) {
+                        this.currentUser.wishes[wishIndex] = {
+                            ...this.currentUser.wishes[wishIndex],
+                            title,
+                            description,
+                            link,
+                            updatedAt: new Date().toISOString()
+                        };
+                        
+                        // Only update image if a new one was uploaded
+                        if (imageBase64) {
+                            this.currentUser.wishes[wishIndex].image = imageBase64;
+                        }
+                    }
+                } else {
+                    // Add new wish
+                    const newWish = {
+                        id: Date.now().toString(),
+                        title,
+                        description,
+                        link,
+                        image: imageBase64 || null,
+                        createdAt: new Date().toISOString(),
+                        updatedAt: new Date().toISOString()
+                    };
+                    
+                    // Initialize wishes array if it doesn't exist
+                    if (!this.currentUser.wishes) {
+                        this.currentUser.wishes = [];
+                    }
+                    
+                    this.currentUser.wishes.push(newWish);
+                }
+                
+                // Update localStorage
+                this.updateUser();
+                
+                // Close modal and refresh page
+                this.closeModal(this.elements.wishModal);
+                
+                // Reload current page based on hash
+                const currentPage = window.location.hash.replace('#', '') || 'home';
+                if (currentPage === 'home') {
+                    this.renderHomePage();
+                } else if (currentPage === 'profile') {
+                    this.renderProfilePage();
+                }
+            },
+            
+            // Save profile changes
+            saveProfileChanges: function() {
+                const name = document.getElementById('profile-name').value.trim();
+                const avatarPreview = document.getElementById('profile-avatar-preview');
+                const avatarBase64 = avatarPreview.dataset.base64;
+                
+                // Validation
+                if (!name) {
+                    alert('Пожалуйста, введите имя');
+                    return;
+                }
+                
+                // Update user data
+                this.currentUser.name = name;
+                
+                // Update avatar if a new one was uploaded
+                if (avatarBase64) {
+                    this.currentUser.avatar = avatarBase64;
+                }
+                
+                // Save changes
+                this.updateUser();
+                
+                // Show success message
+                const successMsg = document.getElementById('profile-success');
+                successMsg.style.display = 'block';
+                
+                // Hide success message after 3 seconds
+                setTimeout(() => {
+                    successMsg.style.display = 'none';
+                }, 3000);
+            },
+            
+            // Save user settings
+            saveUserSettings: function() {
+                const privacy = document.getElementById('setting-privacy').value;
+                const theme = document.getElementById('setting-theme').value;
+                
+                // Update user settings
+                this.currentUser.privacy = privacy;
+                this.currentUser.theme = theme;
+                
+                // Save changes
+                this.updateUser();
+                
+                // Show confirmation
+                alert('Настройки сохранены');
+            },
+            
+            // View friend's wishes
+            viewFriendWishes: function(friendId) {
+                const friend = this.users.find(u => u.id === friendId);
+                
+                if (!friend) return;
+                
+                // Check privacy settings
+                if (friend.privacy === 'private') {
+                    alert('Список желаний пользователя является приватным');
+                    return;
+                }
+                
+                if (friend.privacy === 'friends' && (!this.currentUser.friends || !this.currentUser.friends.includes(friendId))) {
+                    alert('Список желаний доступен только для друзей');
+                    return;
+                }
+                
+                this.elements.mainContent.innerHTML = `
+                    <div style="display: flex; align-items: center; margin-bottom: 20px;">
+                        <button class="btn btn-outline" id="back-to-friends" style="margin-right: 15px;">
+                            <i class="fas fa-arrow-left"></i> Назад
+                        </button>
+                        <h1 style="margin-bottom: 0;">Список желаний ${friend.name}</h1>
+                    </div>
+                    
+                    <div class="wish-grid" id="friend-wishes">
+                        ${friend.wishes && friend.wishes.length 
+                          ? this.renderFriendWishes(friend.wishes, friendId) 
+                          : `
+                            <div style="grid-column: 1 / -1; text-align: center; padding: 50px 0;">
+                                <i class="fas fa-gift" style="font-size: 48px; color: var(--light-gray); display: block; margin-bottom: 15px;"></i>
+                                <p>У пользователя пока нет желаний в списке</p>
+                            </div>
+                          `}
+                    </div>
+                `;
+                
+                // Back button
+                document.getElementById('back-to-friends').addEventListener('click', () => {
+                    const currentPage = window.location.hash.replace('#', '') || 'home';
+                    if (currentPage === 'friends') {
+                        this.renderFriendsPage();
+                    } else {
+                        this.renderProfilePage();
+                        // Activate friends tab
+                        document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+                        document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
+                        document.querySelector('.tab[data-tab="friends"]').classList.add('active');
+                        document.getElementById('friends-tab').classList.add('active');
+                    }
+                });
+                
+                // Reserve wish buttons
+                document.querySelectorAll('.reserve-wish-btn').forEach(btn => {
+                    btn.addEventListener('click', () => {
+                        const wishId = btn.dataset.id;
+                        const friendId = btn.dataset.friend;
+                        this.toggleWishReservation(wishId, friendId);
+                    });
+                });
+            },
+            
+            // View user profile
+            viewUserProfile: function(userId) {
+                const user = this.users.find(u => u.id === userId);
+                
+                if (!user) return;
+                
+                const isFriend = this.currentUser.friends && this.currentUser.friends.includes(userId);
+                const requestSent = user.friendRequests && user.friendRequests.includes(this.currentUser.id);
+                const receivedRequest = this.currentUser.friendRequests && this.currentUser.friendRequests.includes(userId);
+                
+                let actionButton = '';
+                if (isFriend) {
+                    actionButton = `
+                        <button class="btn btn-danger" id="modal-remove-friend" data-id="${user.id}">
+                            <i class="fas fa-user-minus"></i> Удалить из друзей
+                        </button>
+                    `;
+                } else if (requestSent) {
+                    actionButton = `
+                        <button class="btn btn-outline" disabled>
+                            <i class="fas fa-clock"></i> Запрос отправлен
+                        </button>
+                        <button class="btn btn-danger" id="modal-cancel-request" data-id="${user.id}">
+                            <i class="fas fa-times"></i> Отменить запрос
+                        </button>
+                    `;
+                } else if (receivedRequest) {
+                    actionButton = `
+                        <button class="btn btn-success" id="modal-accept-friend" data-id="${user.id}">
+                            <i class="fas fa-check"></i> Принять запрос
+                        </button>
+                        <button class="btn btn-danger" id="modal-decline-friend" data-id="${user.id}">
+                            <i class="fas fa-times"></i> Отклонить запрос
+                        </button>
+                    `;
+                } else {
+                    actionButton = `
+                        <button class="btn" id="modal-add-friend" data-id="${user.id}">
+                            <i class="fas fa-user-plus"></i> Добавить в друзья
+                        </button>
+                    `;
+                }
+                
+                // Check if we can view wishes based on privacy
+                const canViewWishes = user.privacy === 'public' || 
+                                     (user.privacy === 'friends' && isFriend) || 
+                                     !user.privacy; // Default to friends-only if not set
+                
+                let wishesSection = '';
+                if (canViewWishes) {
+                    wishesSection = `
+                        <div style="margin-top: 30px;">
+                            <h3>Список желаний</h3>
+                            <button class="btn" id="modal-view-wishes" data-id="${user.id}">
+                                <i class="fas fa-gift"></i> Посмотреть список желаний
+                            </button>
+                        </div>
+                    `;
+                } else {
+                    wishesSection = `
+                        <div style="margin-top: 30px;">
+                            <h3>Список желаний</h3>
+                            <p style="color: var(--dark-gray);">
+                                ${user.privacy === 'private' 
+                                  ? 'Список желаний пользователя является приватным' 
+                                  : 'Список желаний доступен только для друзей'}
+                            </p>
+                        </div>
+                    `;
+                }
+                
+                document.getElementById('profile-view-content').innerHTML = `
+                    <div style="text-align: center; margin-bottom: 20px;">
+                        <img src="${user.avatar || 'https://ui-avatars.com/api/?name=' + encodeURIComponent(user.name) + '&background=5b48d9&color=fff'}" 
+                             alt="${user.name}" class="profile-avatar" style="width: 120px; height: 120px;">
+                        <h2 style="margin: 15px 0 5px;">${user.name}</h2>
+                        <p style="color: var(--dark-gray); margin-bottom: 20px;">@${user.username}</p>
+                        <div style="display: flex; justify-content: center; gap: 10px; flex-wrap: wrap;">
+                            ${actionButton}
+                        </div>
+                    </div>
+                    
+                    ${wishesSection}
+                `;
+                
+                // Open modal
+                this.openModal(this.elements.profileViewModal);
+                
+                // Add event listeners
+                const addFriendBtn = document.getElementById('modal-add-friend');
+                if (addFriendBtn) {
+                    addFriendBtn.addEventListener('click', () => {
+                        const friendId = addFriendBtn.dataset.id;
+                        this.sendFriendRequest(friendId);
+                        this.closeModal(this.elements.profileViewModal);
+                    });
+                }
+                
+                const removeFriendBtn = document.getElementById('modal-remove-friend');
+                if (removeFriendBtn) {
+                    removeFriendBtn.addEventListener('click', () => {
+                        const friendId = removeFriendBtn.dataset.id;
+                        this.confirmRemoveFriend(friendId);
+                        this.closeModal(this.elements.profileViewModal);
+                    });
+                }
+                
+                const acceptFriendBtn = document.getElementById('modal-accept-friend');
+                if (acceptFriendBtn) {
+                    acceptFriendBtn.addEventListener('click', () => {
+                        const friendId = acceptFriendBtn.dataset.id;
+                        this.acceptFriendRequest(friendId);
+                        this.closeModal(this.elements.profileViewModal);
+                    });
+                }
+                
+                const declineFriendBtn = document.getElementById('modal-decline-friend');
+                if (declineFriendBtn) {
+                    declineFriendBtn.addEventListener('click', () => {
+                        const friendId = declineFriendBtn.dataset.id;
+                        this.declineFriendRequest(friendId);
+                        this.closeModal(this.elements.profileViewModal);
+                    });
+                }
+                
+                const cancelRequestBtn = document.getElementById('modal-cancel-request');
+                if (cancelRequestBtn) {
+                    cancelRequestBtn.addEventListener('click', () => {
+                        const friendId = cancelRequestBtn.dataset.id;
+                        this.cancelFriendRequest(friendId);
+                        this.closeModal(this.elements.profileViewModal);
+                    });
+                }
+                
+                const viewWishesBtn = document.getElementById('modal-view-wishes');
+                if (viewWishesBtn) {
+                    viewWishesBtn.addEventListener('click', () => {
+                        const friendId = viewWishesBtn.dataset.id;
+                        this.closeModal(this.elements.profileViewModal);
+                        this.viewFriendWishes(friendId);
+                    });
+                }
+            },
+            
+            // Send friend request
+            sendFriendRequest: function(friendId) {
+                const friendIndex = this.users.findIndex(u => u.id === friendId);
+                
+                if (friendIndex !== -1) {
+                    if (!this.users[friendIndex].friendRequests) {
+                        this.users[friendIndex].friendRequests = [];
+                    }
+                    
+                    if (!this.users[friendIndex].friendRequests.includes(this.currentUser.id)) {
+                        this.users[friendIndex].friendRequests.push(this.currentUser.id);
+                        localStorage.setItem('users', JSON.stringify(this.users));
+                        
+                        // If online mode is enabled, send request to backend
+                        if (this.onlineMode) {
+                            // API call would go here
+                        }
+                    }
+                }
+            },
+            
+            // Accept friend request
+            acceptFriendRequest: function(friendId) {
+                // Remove from friend requests
+                this.currentUser.friendRequests = this.currentUser.friendRequests.filter(id => id !== friendId);
+                
+                // Add to friends
+                if (!this.currentUser.friends) {
+                    this.currentUser.friends = [];
+                }
+                
+                if (!this.currentUser.friends.includes(friendId)) {
+                    this.currentUser.friends.push(friendId);
+                }
+                
+                // Add current user to friend's friends list
+                const friendIndex = this.users.findIndex(u => u.id === friendId);
+                if (friendIndex !== -1) {
+                    if (!this.users[friendIndex].friends) {
+                        this.users[friendIndex].friends = [];
+                    }
+                    
+                    if (!this.users[friendIndex].friends.includes(this.currentUser.id)) {
+                        this.users[friendIndex].friends.push(this.currentUser.id);
+                    }
+                }
+                
+                // Update user data
+                this.updateUser();
+                
+                // Update UI
+                this.updateFriendRequestsBadge();
+                
+                // Reload current page
+                const currentPage = window.location.hash.replace('#', '') || 'home';
+                if (currentPage === 'friends') {
+                    this.renderFriendsPage();
+                } else if (currentPage === 'profile') {
+                    this.renderProfilePage();
+                    // Activate friends tab
+                    document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+                    document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
+                    document.querySelector('.tab[data-tab="friends"]').classList.add('active');
+                    document.getElementById('friends-tab').classList.add('active');
+                }
+            },
+            
+            // Decline friend request
+            declineFriendRequest: function(friendId) {
+                // Remove from friend requests
+                this.currentUser.friendRequests = this.currentUser.friendRequests.filter(id => id !== friendId);
+                
+                // Update user data
+                this.updateUser();
+                
+                // Update UI
+                this.updateFriendRequestsBadge();
+                
+                // Reload current page
+                const currentPage = window.location.hash.replace('#', '') || 'home';
+                if (currentPage === 'friends') {
+                    this.renderFriendsPage();
+                } else if (currentPage === 'profile') {
+                    this.renderProfilePage();
+                    // Activate friends tab
+                    document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+                    document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
+                    document.querySelector('.tab[data-tab="friends"]').classList.add('active');
+                    document.getElementById('friends-tab').classList.add('active');
+                }
+            },
+            
+            // Remove friend
+            removeFriend: function(friendId) {
+                // Remove from friends list
+                this.currentUser.friends = this.currentUser.friends.filter(id => id !== friendId);
+                
+                // Remove current user from friend's friends list
+                const friendIndex = this.users.findIndex(u => u.id === friendId);
+                if (friendIndex !== -1) {
+                    this.users[friendIndex].friends = this.users[friendIndex].friends.filter(id => id !== this.currentUser.id);
+                }
+                
+                // Update user data
+                this.updateUser();
+                
+                // Reload current page
+                const currentPage = window.location.hash.replace('#', '') || 'home';
+                if (currentPage === 'friends') {
+                    this.renderFriendsPage();
+                } else if (currentPage === 'profile') {
+                    this.renderProfilePage();
+                    // Activate friends tab
+                    document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+                    document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
+                    document.querySelector('.tab[data-tab="friends"]').classList.add('active');
+                    document.getElementById('friends-tab').classList.add('active');
+                }
+            },
+            
+            // Cancel friend request
+            cancelFriendRequest: function(friendId) {
+                const friendIndex = this.users.findIndex(u => u.id === friendId);
+                
+                if (friendIndex !== -1) {
+                    this.users[friendIndex].friendRequests = this.users[friendIndex].friendRequests.filter(id => id !== this.currentUser.id);
+                    localStorage.setItem('users', JSON.stringify(this.users));
+                    
+                    // Reload current page
+                    const currentPage = window.location.hash.replace('#', '') || 'home';
+                    if (currentPage === 'friends') {
+                        this.renderFriendsPage();
+                    } else if (currentPage === 'profile') {
+                        this.renderProfilePage();
+                        // Activate friends tab
+                        document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+                        document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
+                        document.querySelector('.tab[data-tab="friends"]').classList.add('active');
+                        document.getElementById('friends-tab').classList.add('active');
+                    }
+                }
+            },
+            
+            // Toggle wish reservation
+            toggleWishReservation: function(wishId, friendId) {
+                const friendIndex = this.users.findIndex(u => u.id === friendId);
+                
+                if (friendIndex !== -1) {
+                    const wishIndex = this.users[friendIndex].wishes.findIndex(w => w.id === wishId);
+                    
+                    if (wishIndex !== -1) {
+                        const wish = this.users[friendIndex].wishes[wishIndex];
+                        
+                        // Toggle reservation
+                        if (wish.reservedBy === this.currentUser.id) {
+                            // Cancel reservation
+                            wish.reservedBy = null;
+                        } else if (!wish.reservedBy) {
+                            // Make reservation
+                            wish.reservedBy = this.currentUser.id;
+                        }
+                        
+                        // Update localStorage
+                        localStorage.setItem('users', JSON.stringify(this.users));
+                        
+                        // Reload friend's wishes
+                        this.viewFriendWishes(friendId);
+                    }
+                }
+            },
+            
+            // Delete wish
+            deleteWish: function(wishId) {
+                // Filter out the wish
+                this.currentUser.wishes = this.currentUser.wishes.filter(w => w.id !== wishId);
+                
+                // Update user data
+                this.updateUser();
+                
+                // Reload current page
+                const currentPage = window.location.hash.replace('#', '') || 'home';
+                if (currentPage === 'home') {
+                    this.renderHomePage();
+                } else if (currentPage === 'profile') {
+                    this.renderProfilePage();
+                }
+            },
+            
+            // Delete account
+            deleteAccount: function() {
+                // Remove current user from friends' lists
+                if (this.currentUser.friends) {
+                    this.currentUser.friends.forEach(friendId => {
+                        const friendIndex = this.users.findIndex(u => u.id === friendId);
+                        if (friendIndex !== -1) {
+                            this.users[friendIndex].friends = this.users[friendIndex].friends.filter(id => id !== this.currentUser.id);
+                        }
+                    });
+                }
+                
+                // Remove current user from all friend requests
+                this.users.forEach(user => {
+                    if (user.friendRequests) {
+                        user.friendRequests = user.friendRequests.filter(id => id !== this.currentUser.id);
+                    }
+                });
+                
+                // Remove current user from users array
+                this.users = this.users.filter(u => u.id !== this.currentUser.id);
+                
+                // Update localStorage
+                localStorage.setItem('users', JSON.stringify(this.users));
+                
+                // Log out
+                this.handleLogout();
+            },
+            
+            // Update user data in localStorage and user array
+            updateUser: function() {
+                // Find and update user in the array
+                const userIndex = this.users.findIndex(u => u.id === this.currentUser.id);
+                if (userIndex !== -1) {
+                    this.users[userIndex] = this.currentUser;
+                    localStorage.setItem('users', JSON.stringify(this.users));
+                    localStorage.setItem('currentUser', JSON.stringify(this.currentUser));
+                }
+                
+                // If online mode is enabled, sync with backend
+                if (this.onlineMode) {
+                    // API call would go here
+                    this.lastSync = new Date();
+                    localStorage.setItem('lastSync', this.lastSync.toISOString());
+                }
+            },
+            
+            // Open modal
+            openModal: function(modal) {
+                modal.classList.add('open');
+            },
+            
+            // Close modal
+            closeModal: function(modal) {
+                modal.classList.remove('open');
+            },
+            
+            // Confirm delete wish
+            confirmDeleteWish: function(wishId) {
+                document.getElementById('confirm-message').textContent = 'Вы уверены, что хотите удалить это желание?';
+                document.getElementById('confirm-action').textContent = 'Удалить';
+                document.getElementById('confirm-action').dataset.action = 'delete-wish';
+                document.getElementById('confirm-action').dataset.id = wishId;
+                
+                document.getElementById('confirm-action').addEventListener('click', () => {
+                    const action = document.getElementById('confirm-action').dataset.action;
+                    const id = document.getElementById('confirm-action').dataset.id;
+                    
+                    if (action === 'delete-wish') {
+                        this.deleteWish(id);
+                    }
+                    
+                    this.closeModal(this.elements.confirmModal);
+                }, { once: true });
+                
+                this.openModal(this.elements.confirmModal);
+            },
+            
+            // Confirm remove friend
+            confirmRemoveFriend: function(friendId) {
+                const friend = this.users.find(u => u.id === friendId);
+                if (!friend) return;
+                
+                document.getElementById('confirm-message').textContent = `Вы уверены, что хотите удалить ${friend.name} из друзей?`;
+                document.getElementById('confirm-action').textContent = 'Удалить';
+                document.getElementById('confirm-action').dataset.action = 'remove-friend';
+                document.getElementById('confirm-action').dataset.id = friendId;
+                
+                document.getElementById('confirm-action').addEventListener('click', () => {
+                    const action = document.getElementById('confirm-action').dataset.action;
+                    const id = document.getElementById('confirm-action').dataset.id;
+                    
+                    if (action === 'remove-friend') {
+                        this.removeFriend(id);
+                    }
+                    
+                    this.closeModal(this.elements.confirmModal);
+                }, { once: true });
+                
+                this.openModal(this.elements.confirmModal);
+            },
+            
+            // Confirm delete account
+            confirmDeleteAccount: function() {
+                document.getElementById('confirm-message').textContent = 'Вы уверены, что хотите удалить свой аккаунт? Это действие невозможно отменить!';
+                document.getElementById('confirm-action').textContent = 'Удалить аккаунт';
+                document.getElementById('confirm-action').dataset.action = 'delete-account';
+                
+                document.getElementById('confirm-action').addEventListener('click', () => {
+                    const action = document.getElementById('confirm-action').dataset.action;
+                    
+                    if (action === 'delete-account') {
+                        this.deleteAccount();
+                    }
+                    
+                    this.closeModal(this.elements.confirmModal);
+                }, { once: true });
+                
+                this.openModal(this.elements.confirmModal);
+            },
+            
+            // Sync user data with backend (for online mode)
+            syncUserData: function() {
+                if (!this.onlineMode) return;
+                
+                this.loadingData = true;
+                
+                // Here you would make API calls to sync data
+                // This is a placeholder for the actual implementation
+                
+                setTimeout(() => {
+                    this.loadingData = false;
+                    this.lastSync = new Date();
+                    localStorage.setItem('lastSync', this.lastSync.toISOString());
+                }, 1000);
+            }
+        };
+        
+        // Initialize app when document is ready
+        document.addEventListener('DOMContentLoaded', function() {
+            WishListApp.init();
+        });
+    </script>
 </body>
 </html>
